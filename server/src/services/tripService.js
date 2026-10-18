@@ -3,6 +3,8 @@
  * It gets weather forecast and air pollution for city
  * Based on the city, returns everything the client needs for that trip
  */
+import { getNextThreeDaysForecast, summariseDay } from '../lib/forecast.js';
+import { getDailyPollutionPeaks } from '../lib/airQuality.js';
 
 export function createTripService(weatherClient) {
     async function getTripInfo(city) {
@@ -14,6 +16,17 @@ export function createTripService(weatherClient) {
         
         // Keep only next 3 days to be implemented in forecast.js 
         // rest to be implemented after helper files are written
+        const summary = getNextThreeDaysForecast(forecast.list, timezone);
+        const days = [] 
+        for (const day of summary) {
+            const weather = summariseDay(day.entries);
+            days.push( {
+                date: day.date, 
+                ...weather, 
+                pollution: getDailyPollutionPeaks(pollution.list, timezone, day.date)
+            })
+
+        }
 
         return {
             location : { 
@@ -23,8 +36,7 @@ export function createTripService(weatherClient) {
             longitude, 
             timezone
             },
-            forecastEntries: forecast.list.length,
-            pollutionEntries: pollution.list.length, 
+            days
         };
     }
     return { getTripInfo };
