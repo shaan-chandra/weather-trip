@@ -10,11 +10,16 @@ export function createOpenWeatherUrl(apiKey) {
     async function getJson(url) {
         const res = await fetch(url); 
         if (!res.ok) {
-            throw new Error('OpenWeather error: ${res.status}')
+            throw new Error(`OpenWeather error: ${res.status}`)
 
         }
         const data = await res.json();
         return data; 
+    }
+
+    async function getDailyForecast(city) {
+        const url = `${baseUrl}/data/2.5/forecast/daily?q=${encodeURIComponent(city)}&cnt=4&units=metric&appid=${apiKey}`;
+        return getJson(url);
     }
     // Get weather forecast of city for 3 hours 
     async function getWeatherForecast(city) {
@@ -26,5 +31,5 @@ export function createOpenWeatherUrl(apiKey) {
         const url = `${baseUrl}/data/2.5/air_pollution/forecast?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
         return getJson(url);
     }
-    return { getWeatherForecast, getAirPollutionForecast };
+    return { getDailyForecast, getWeatherForecast, getAirPollutionForecast };
 }
