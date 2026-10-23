@@ -1,0 +1,20 @@
+# Dependencies
+node_modules/
+
+# Secrets (API key) - never commit
+.env
+
+# Build output
+dist/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Scratch/test scripts
+scratch.js
+
+# Editor / OS files
+.vscode/
+.DS_Store
+Thumbs.db

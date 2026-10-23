@@ -1,0 +1,8 @@
+/* Styles: Tailwind + daisyUI. Visual style inspired by the iOS Weather app.
+   Design reference: ../design/mockup.html */
+@import "tailwindcss";
+@plugin "daisyui";
+
+body {
+  font-family: "Inter", system-ui, sans-serif;
+}
